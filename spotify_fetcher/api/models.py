@@ -19,6 +19,9 @@ class Artist(models.Model):
     type = models.CharField(max_length=300)  # "artist"
     uri = models.CharField(max_length=300)  # spotify url of the artist
 
+    retrieved_date = models.DateTimeField()
+    # meta
+
 
 class AccessToken(models.Model):
     access_token = models.CharField(max_length=400)

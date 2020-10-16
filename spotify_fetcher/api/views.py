@@ -11,8 +11,8 @@ from rest_framework.generics import ListAPIView
 from api.serializers import ArtistSerializer
 from api.serializers import AccessTokenSerializer
 from api.models import Artist
-from api.spotify_auth import SpotifyAuth
-from api.tasks import token_exists, is_token_valid, refresh_token
+from api.spotify.auth import SpotifyAuth
+from api.spotify.utils import token_exists, is_token_valid, refresh_token
 
 
 class AuthCallback(View):

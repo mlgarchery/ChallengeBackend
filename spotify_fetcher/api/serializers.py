@@ -1,5 +1,8 @@
+# Django REST Framework
 from rest_framework import serializers
-from .models import Artist, AccessToken
+
+# Api
+from api.models import Artist, AccessToken
 
 
 class ArtistSerializer(serializers.ModelSerializer):
