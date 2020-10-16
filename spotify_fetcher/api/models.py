@@ -18,3 +18,11 @@ class Artist(models.Model):
     popularity = models.IntegerField()  # 0 < p < 100
     type = models.CharField(max_length=300)  # "artist"
     uri = models.CharField(max_length=300)  # spotify url of the artist
+
+
+class AccessToken(models.Model):
+    access_token = models.CharField(max_length=400)
+    refresh_token = models.CharField(max_length=400)
+    expires_in = models.IntegerField()
+    # time after retrieved date until when the access token is valid
+    retrieved_date = models.DateTimeField()

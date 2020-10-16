@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Artist
+from .models import Artist, AccessToken
 
 
 class ArtistSerializer(serializers.ModelSerializer):
@@ -8,4 +8,11 @@ class ArtistSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Artist
+        fields = "__all__"
+
+
+class AccessTokenSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AccessToken
         fields = "__all__"
