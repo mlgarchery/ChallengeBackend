@@ -8,4 +8,4 @@ class ArtistSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Artist
-        exclude = ('id',)
+        fields = "__all__"
