@@ -5,11 +5,13 @@ verify_ssl = true
 
 [dev-packages]
 flake8 = "*"
+ipython = "*"
 
 [packages]
 django = "*"
 djangorestframework = "*"
 psycopg2 = "*"
+django-crontab = "*"
 
 [requires]
 python_version = "3.6"

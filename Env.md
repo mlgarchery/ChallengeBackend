@@ -26,10 +26,13 @@ Relative to psycopg2
 sudo apt install python3-dev libpq-dev
 ```
 
+
+
 - Python env (using pipenv):
 ```
 pipenv install
 pipenv shell
 cd spotify_project/
+python manage.py crontab add 
 python manage.py runserver
 ```

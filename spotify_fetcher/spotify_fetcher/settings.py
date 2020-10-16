@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #
     "rest_framework",
-    "django_celery_beat",
+    "django_crontab",
     "api",  # our app
 ]
 
@@ -88,6 +88,10 @@ DATABASES = {
     }
 }
 
+# 
+CRONJOBS = [
+    ('*/1 * * * *', 'api.cron_tasks.printHello'),
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
