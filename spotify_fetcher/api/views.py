@@ -32,6 +32,8 @@ class AuthCallback(View):
         if ser.is_valid():
             ser.save()
             retrieve_artists()
+            # retrieve the first artists, then the cron job
+            # add/update more of them
             return HttpResponseRedirect("/api/artists/")
         return HttpResponse("<p>Authentication error</p>")
 
@@ -58,7 +60,5 @@ class ListLastArtists(ListAPIView):
 
             if not token_exists():
                 return HttpResponseRedirect(SpotifyAuth().getUser())
-
-            retrieve_artists()
 
         return super(ListLastArtists, self).get(request, *args, **kwargs)

@@ -28,8 +28,6 @@ def token_is_valid():
     """
     Returns the validity of the token
     """
-    if not token_exists():
-        return False
     accessToken = get_token()
     time_limit = accessToken.retrieved_date + \
         timedelta(seconds=accessToken.expires_in)

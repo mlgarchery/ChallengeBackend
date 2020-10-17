@@ -3,8 +3,8 @@ import requests
 from functools import wraps
 
 # Api
-from api.models import AccessToken, Artist
-from api.spotify.token import manage_content_request_error
+from api.models import Artist
+from api.spotify.token import get_token, manage_content_request_error
 
 
 def manage_error_response(request_function):
@@ -20,11 +20,9 @@ def manage_error_response(request_function):
 @manage_error_response
 def request_artist(href):
     """
-    Request the data of one artist
-    Add the retrieved_date (timezone.now()) to the data
-    then use the serializer to validate and save it.
+    Request the data of one artist.
     """
-    access_token = AccessToken.objects.last().access_token
+    access_token = get_token().access_token
     response = requests.get(
         href,
         headers={"Authorization": f"Bearer {access_token}"}
@@ -34,7 +32,10 @@ def request_artist(href):
 
 @manage_error_response
 def requests_new_releases():
-    access_token = AccessToken.objects.last().access_token
+    """
+    Request the next 20 album items from new_release.
+    """
+    access_token = get_token().access_token
     artist_count = Artist.objects.count()
     response = requests.get(
         "https://api.spotify.com/v1/browse/new-releases"
