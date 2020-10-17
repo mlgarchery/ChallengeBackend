@@ -97,7 +97,7 @@ DATABASES = {
 
 #
 CRONJOBS = [
-    ('*/2 * * * *', 'api.crontab.tasks.retrieve_artists', f">> {BASE_DIR}/"
+    ('*/2 * * * *', 'api.crontab.tasks.retrieve_artists', f">> {BASE_DIR}/api/"
                     "crontab/logs/retrieve_artists.log"),
 ]
 

@@ -10,9 +10,7 @@ from api.spotify.token import manage_content_request_error
 def manage_error_response(request_function):
     @wraps(request_function)
     def wrap(*args, **kwargs):
-        print("wrapped")
         response_json = request_function(*args, **kwargs)
-        print("manage errors")
         if "error" in response_json:
             manage_content_request_error(response_json)
         return response_json
