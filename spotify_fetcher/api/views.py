@@ -12,7 +12,9 @@ from api.serializers import ArtistSerializer
 from api.serializers import AccessTokenSerializer
 from api.models import Artist
 from api.spotify.auth import SpotifyAuth
-from api.spotify.utils import token_exists, is_token_valid, refresh_token
+from api.spotify.token import token_exists, token_is_valid,\
+                                     refresh_or_remove_token
+from api.crontab.tasks import retrieve_artists
 
 
 class AuthCallback(View):
@@ -22,7 +24,6 @@ class AuthCallback(View):
 
     Otherwise displays an error.
     """
-
     def get(self, request):
         code = request.GET.get('code', None)
         access_token_response = SpotifyAuth().getUserToken(code)
@@ -30,27 +31,34 @@ class AuthCallback(View):
         ser = AccessTokenSerializer(data=access_token_response)
         if ser.is_valid():
             ser.save()
-            # retrieve_artists()  # the crontab execute this regularly
+            retrieve_artists()
             return HttpResponseRedirect("/api/artists/")
         return HttpResponse("<p>Authentication error</p>")
 
 
 class ListLastArtists(ListAPIView):
     serializer_class = ArtistSerializer
-    queryset = Artist.objects.all().reverse()
+    queryset = Artist.objects.all().order_by("-retrieved_date")
     # sorted by last appearing date
 
     def get(self, request, *args, **kwargs):
         """
-        Checks if an access token already exists.
-        Otherwise redirect the user to the Spotify authorize endpoint,
+        Depending on the token state (non existent, valid or invaling)
+        we either:
+        - redirect the user to the Spotify authorize endpoint,
         in order to create one.
-
-        Else, displays the last artists saved localy.
+        - displays the Artists saved locally
         """
         if not token_exists():
             return HttpResponseRedirect(SpotifyAuth().getUser())
 
-        if not is_token_valid():
-            refresh_token()
+        if not token_is_valid():
+            refresh_or_remove_token()
+            # remove it if the user revoked access
+
+            if not token_exists():
+                return HttpResponseRedirect(SpotifyAuth().getUser())
+
+            retrieve_artists()
+
         return super(ListLastArtists, self).get(request, *args, **kwargs)

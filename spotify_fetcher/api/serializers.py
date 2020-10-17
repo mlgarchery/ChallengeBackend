@@ -13,6 +13,9 @@ class ArtistSerializer(serializers.ModelSerializer):
         model = Artist
         fields = "__all__"
 
+    def update_or_create(self):
+        Artist.objects.update_or_create(**self.validated_data)
+
 
 class AccessTokenSerializer(serializers.ModelSerializer):
 

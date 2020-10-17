@@ -97,10 +97,7 @@ DATABASES = {
 
 #
 CRONJOBS = [
-    # ('*/5 * * * *', 'api.crontab.tasks.check_token', f">> {BASE_DIR}/"
-    #                 "crontab/logs/check_token.log"),
-    ('*/1 * * * *', 'api.crontab.tasks.check_token', ),
-    ('*/5 * * * *', 'api.crontab.tasks.retrieve_artists', f">> {BASE_DIR}/"
+    ('*/2 * * * *', 'api.crontab.tasks.retrieve_artists', f">> {BASE_DIR}/"
                     "crontab/logs/retrieve_artists.log"),
 ]
 
