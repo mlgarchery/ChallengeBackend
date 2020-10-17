@@ -11,7 +11,8 @@ from api.serializers import ArtistSerializer
 
 def retrieve_artist(artist):
     """
-    Add the retrieved_date (timezone.now()) to the artist data
+    Retrieve one artist.
+    Add the retrieved_date (timezone.now()) to the artist's data
     then use the serializer to validate and save it.
     """
     artist["retrieved_date"] = timezone.now()

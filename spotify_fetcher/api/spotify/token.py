@@ -68,7 +68,7 @@ def refresh_or_remove_token():
         accessToken.expires_in = response["expires_in"]
         accessToken.retrieved_date = timezone.now()
         accessToken.save()
-
     # {'error': 'invalid_grant', 'error_description': 'Refresh token revoked'}
-    if "invalid_grant" == response["error"]:
-        remove_token()
+    else:
+        if "invalid_grant" == response["error"]:
+            remove_token()
