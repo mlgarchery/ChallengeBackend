@@ -76,3 +76,5 @@ venv.bak/
 .history
 
 _django_shell.py
+
+**/static/*
