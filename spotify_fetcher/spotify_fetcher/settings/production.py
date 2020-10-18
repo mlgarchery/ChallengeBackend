@@ -23,3 +23,8 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+# before each cron task is executed, we net to indicate manage.py
+# we are in prod env
+CRONTAB_COMMAND_PREFIX = "export DJANGO_SETTINGS_MODULE="\
+                "spotify_fetcher.settings.production &&"

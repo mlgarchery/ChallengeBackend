@@ -74,9 +74,10 @@ WSGI_APPLICATION = 'spotify_fetcher.wsgi.application'
 
 #
 CRONJOBS = [
-    ('*/2 * * * *', 'api.crontab.tasks.retrieve_artists', f">> {BASE_DIR}/api/"
-                    "crontab/logs/retrieve_artists.log"),
+    ('* * * * *', 'api.crontab.tasks.retrieve_artists',
+        f">> {BASE_DIR}/api/crontab/logs/retrieve_artists.log"),
 ]
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
