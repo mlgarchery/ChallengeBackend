@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'spotify_fetcher.wsgi.application'
 #
 CRONJOBS = [
     ('* * * * *', 'api.crontab.tasks.retrieve_artists',
-        f">> {BASE_DIR}/api/crontab/logs/retrieve_artists.log"),
+        f">> {BASE_DIR}/api/crontab/retrieve_artists.log"),
 ]
 
 

@@ -1,62 +1,36 @@
-Listing here the important environment configuration before putting all this into a Dockerfile
+## Implementation
+
+I decided to do a one user project, meaning no authentication is required to access /api/artists/.
+When the user - probably you reading this text :) - requests this endpoint, a few steps described below happen until he gets redirected to the first endpoint where the artists will be displayed. Theses steps retrieve the access token.
+
+Meanwhile, a cron job (django-crontab package), regularly fetches artists if an access token is valid in base.
+
+![drawing explaining the Authorization code flow in use in my implementation](drawing.png)
 
 
-- Ubuntu 18.04
-- Postgres13
-
+## Running the project 
+(use "setx CLIENT_ID=<..>" on windows)
 ```
-# Create the file repository configuration:
-sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-
-# Import the repository signing key:
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-
-# Update the package lists:
-sudo apt-get update
-
-# Install the latest version of PostgreSQL.
-# If you want a specific version, use 'postgresql-12' or similar instead of 'postgresql':
-sudo apt-get -y install postgresql
+export CLIENT_ID=<your_client_ID>
+export CLIENT_SECRET=<your_client_secret>
+```
+then 
+```
+docker-compose up
 ```
 
-useful
-```
-sudo service postgresql restart
-```
+Hit http://localhost:5000/api/artists/ with your browser and you should see the artists from new releases (not all at first, the cron task execute every minute)
 
-Relative to psycopg2
-```
-sudo apt install python3-dev libpq-dev
-```
+## More
 
-Setting up the credentials
+The production settings file (spotify_fetcher/settings/production.py) basically set DEBUG to False and seek for a SECRET_KEY env variable to replace the default secret key used in development. 
+Maybe you'll want to do:
 ```
-export CLIENT_ID="youtClientID"
-export CLIENT_SECRET="yourClientSecret"
+export SECRET_KEY=<your_secret_key>
 ```
+Statics files are served at "/static/" and generated with "python manage.py collecstatic" (see the Dockerfile).
 
 
-- Installing the python env (using pipenv Pipfile):
-```
-pipenv install
-pipenv shell
-```
+Django deployement using Gunicorn server.
 
-Running the app
-```
-cd spotify_project/
-python manage.py crontab add 
-python manage.py runserver 5000
-```
-
-Useful - Shutting down crontab tasks
-```
-python manage.py crontab remove
-```
-
-
-set django for production
-```
-python manage.py collectstatic
-gunicorn --env DJANGO_SETTINGS_MODULE=spotify_fetcher.settings.production spotify_fetcher.wsgi -b localhost:5000
-```
+Docker related: I used a python image on which i installed cron. I used docker-compose to create a postgres container that launch before the django one. I wait a solid 3 sec when the django container starts before executing django in order to be quite certain the postgres db is ready. A better way to do this would be to request at regular interval a postgres container endpoint to check get its state.
