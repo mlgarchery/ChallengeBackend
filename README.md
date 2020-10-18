@@ -3,10 +3,11 @@
 I decided to do a one user project, meaning no authentication is required to access /api/artists/.
 When the user - probably you reading this text :) - requests this endpoint, a few steps described below happen until he gets redirected to the first endpoint where the artists will be displayed. Theses steps retrieve the access token.
 
-Meanwhile, a cron job (django-crontab package), regularly fetches artists if an access token is valid in base.
 
-![drawing explaining the Authorization code flow in use in my implementation](drawing.png)
+![drawing explaining the Authorization code flow in use in my implementation1](img/top.png)
 
+
+![drawing explaining the Authorization code flow in use in my implementation](img/bottom.png)
 
 ## Running the project 
 (use "setx CLIENT_ID=<..>" on windows)
