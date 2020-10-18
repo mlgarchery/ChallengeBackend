@@ -1,4 +1,3 @@
-# Tools
 # Django
 from django.utils import timezone
 

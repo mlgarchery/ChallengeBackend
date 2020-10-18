@@ -1,0 +1,28 @@
+version: "3.8"
+   
+services:
+  webapp:
+    build: .
+    image: webapp:django
+    environment:
+      - CLIENT_ID=${CLIENT_ID}
+      - CLIENT_SECRET=${CLIENT_SECRET}
+    command: >
+      bash -c "sleep 3 
+      && export DJANGO_SETTINGS_MODULE=spotify_fetcher.settings.production
+      && python manage.py migrate
+      && gunicorn spotify_fetcher.wsgi -b 0.0.0.0:5000"
+    # command: gunicorn spotify_fetcher.wsgi -b 0.0.0.0:5000
+    volumes:
+      - .:/code
+    ports:
+      - "5000:5000"
+    depends_on:
+      db:
+        condition: service_started
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
