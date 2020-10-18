@@ -8,11 +8,12 @@ services:
       - CLIENT_ID=${CLIENT_ID}
       - CLIENT_SECRET=${CLIENT_SECRET}
     command: >
-      bash -c "sleep 3 
+      bash -c "sleep 3
       && export DJANGO_SETTINGS_MODULE=spotify_fetcher.settings.production
       && python manage.py migrate
+      && python manage.py crontab add
+      && service cron restart
       && gunicorn spotify_fetcher.wsgi -b 0.0.0.0:5000"
-    # command: gunicorn spotify_fetcher.wsgi -b 0.0.0.0:5000
     volumes:
       - .:/code
     ports:

@@ -1,16 +1,17 @@
 FROM python:3.6-buster
 
-#installing cron and running it
+#installing cron
 RUN apt update
 RUN apt install -y cron
-RUN service cron restart
 
 RUN pip install pipenv
 
+# adding the sources
 ADD spotify_fetcher /usr/src/spotify_fetcher
 
 WORKDIR /usr/src/spotify_fetcher/
 
+# adding the env files
 COPY Pipfile Pipfile.lock ./
 
 # pipenv dependencies system installation
@@ -24,4 +25,3 @@ RUN export DJANGO_SETTINGS_MODULE=spotify_fetcher.settings.production
 RUN python manage.py collectstatic
 
 # setting up the crontab
-RUN python manage.py crontab add
