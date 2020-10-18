@@ -8,7 +8,7 @@ from django.utils import timezone
 # Api
 from api.models import AccessToken
 from api.spotify.token import token_exists, token_is_valid, remove_token
-from api.spotify.requests import request_artist, requests_new_releases
+from api.spotify.requests import request_artist
 
 
 class Token(TestCase):
@@ -57,6 +57,8 @@ class BadSpotifyRequest(TestCase):
         self.accessToken.delete()
 
     def test_request_invalid_access_token(self):
-        response = request_artist("https://api.spotify.com/v1/artists/0Y5tJX1MQlPlqiwlOH1tJY")
+        response = request_artist(
+            "https://api.spotify.com/v1/artists/0Y5tJX1MQlPlqiwlOH1tJY"
+        )
         # travis scott valid href
         self.assertEqual(response["error"]["message"], "Invalid access token")

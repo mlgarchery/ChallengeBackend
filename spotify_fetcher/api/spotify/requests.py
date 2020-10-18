@@ -4,7 +4,7 @@ from functools import wraps
 
 # Api
 from api.models import Artist
-from api.spotify.token import get_token, manage_content_request_error
+from api.spotify.token import get_token, refresh_or_remove_token
 
 
 def manage_error_response(request_function):
@@ -15,6 +15,26 @@ def manage_error_response(request_function):
             manage_content_request_error(response_json)
         return response_json
     return wrap
+
+
+def manage_content_request_error(response):
+    """
+    See Spotify status codes which comply to RFC:
+    https://developer.spotify.com/documentation/web-api/#response-status-codes
+
+    """
+    # regular content requests
+    if "message" in response["error"]:
+        # status_code = response["error"]["status"]
+        message = response["error"]["message"]
+        if message == "The access token expired":
+            """
+            401	Unauthorized -
+            The request requires user authentication or, if the request
+            included authorization credentials,
+            authorization has been refused for those credentials.
+            """
+            refresh_or_remove_token()
 
 
 @manage_error_response
