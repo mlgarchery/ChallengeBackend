@@ -23,5 +23,3 @@ RUN export DJANGO_SETTINGS_MODULE=spotify_fetcher.settings.production
 
 #static file serving for production
 RUN python manage.py collectstatic
-
-# setting up the crontab
