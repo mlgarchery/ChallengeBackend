@@ -9,3 +9,17 @@ SECRET_KEY = os.environ.get('SECRET_KEY', dev_secret)
 DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+
+# Database
+# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}

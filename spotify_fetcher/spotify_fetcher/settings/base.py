@@ -70,20 +70,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'spotify_fetcher.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'spotify_fetcher_db',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5433',
-    }
-}
-
 #
 CRONJOBS = [
     ('*/2 * * * *', 'api.crontab.tasks.retrieve_artists', f">> {BASE_DIR}/api/"
