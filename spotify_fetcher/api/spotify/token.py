@@ -8,6 +8,8 @@ from api.spotify.auth import SpotifyAuth
 
 
 def get_token():
+    if not AccessToken.objects.all():
+        return None
     return AccessToken.objects.last()
 
 
