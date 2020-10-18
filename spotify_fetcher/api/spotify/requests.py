@@ -40,7 +40,7 @@ def requests_new_releases():
     response = requests.get(
         "https://api.spotify.com/v1/browse/new-releases"
         f"?offset={artist_count}"
-        f"&limit=20",
+        f"&limit=40",
         headers={"Authorization": f"Bearer {access_token}"}
     )
     return response.json()
